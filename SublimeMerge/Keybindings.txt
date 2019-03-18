@@ -1,0 +1,27 @@
+https://forum.sublimetext.com/t/custom-keybindings-and-preferences-default-vs-user/39086/6
+
+OdatNurdSep 2018
+Merge and Text both share a common code base, so for things like this, anything you can do in Text you can also do in Merge, with the caveat that (at least currently) Text makes this a lot easier by providing an interface to do so while Merge requires you to take the steps manually.
+
+So, creating a sublime-keymap file with an appropriate name in your Merge User package (like Text you can use Preferences > Browse Packages to find it) is enough to make Merge use it.
+
+As an example, I have a Default (Linux).sublime-keymap file (and one for Windows and OSX) with the following contents in it so that I can switch repositories with the same key binding that I'm used to in Text:
+
+[
+    // Mimic quick switch project in Sublime.
+    { "keys": ["ctrl+alt+p"], "command": "quick_switch_repository" },
+]
+Similarly you can also create a sublime-commands file to add items to the command palette, such as this example Default.sublime-commands file that adds the previous command to the palette:
+
+[
+    { "caption": "Quick Switch Repository", "command": "quick_switch_repository" },
+]
+As you mentioned in your post, the missing part here is knowing what the command names are, which is the trickier bit and is the part that Text helps you out with by automatically opening the defaults for you.
+
+Merge can't do that, so it's up to you to do it yourself.
+
+If you look in the folder that Merge is installed in, you'll find a folder named Packages, which contain the packages that ship with Merge. The Default - Merge.sublime-package file contains the base key bindings and preferences while Default.sublime-package contains other resources like the menus, command palette entries and so on.
+
+If you copy those package files to somewhere safe and rename them to zip files, you can extract them to see what's inside them, which is where you can gain insight into the available commands and how they work.
+
+Note that both packages contain key bindings and preferences, but the ones in Default - Merge are the ones that Merge uses; the others are from Sublime. I would imagine that Merge is loading the Default package and then applying the changes from Default - Merge on top.
